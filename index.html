@@ -3,162 +3,470 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Reto Vulcano — En construcción</title>
-  <meta name="description" content="Reto Vulcano">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <title>Convocatoria — Programa Escolar de Viveros Verticales</title>
   <style>
+    /* =========================
+       PALETA (CIMA - AJUSTABLE)
+       =========================
+       Nota: No tengo tus códigos exactos; dejé una paleta verde/azul con acento cálido.
+       Si CIMA ya tiene colores oficiales, reemplaza estos HEX.
+    */
     :root{
-      /* Escalas fluidas para mantener margen y proporciones en todas las pantallas */
-      --space: clamp(16px, 4vw, 48px);                 /* margen/padding constante */
-      --gap: clamp(8px, 2.2vw, 18px);                  /* separación entre elementos */
-      --logo-w: clamp(180px, 36vw, 360px);             /* ancho del logo */
-      --lottie: clamp(160px, 28vw, 300px);             /* tamaño de la animación */
-      --h1: clamp(26px, 5vw, 46px);                    /* tamaño H1 */
-      --tag: clamp(14px, 2.6vw, 18px);                 /* tagline y lead */
-
-      --lava:#ff3b0a; --txt:#fff; --muted:#b9c0cf; --bg:#0b0f1a;
+      --cima-forest:#0B3D2E;     /* verde profundo */
+      --cima-green:#1F7A4D;      /* verde principal */
+      --cima-teal:#0F6E7A;       /* azul verdoso */
+      --cima-sand:#F3F0E8;       /* fondo cálido */
+      --cima-sun:#F2A900;        /* acento */
+      --cima-ink:#123;           /* texto */
+      --cima-muted:#5D6B66;      /* texto secundario */
+      --card:#FFFFFF;
+      --border:#D9E3DE;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --radius: 18px;
+      --maxw: 980px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
     }
 
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
-    body{
-      font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial;
-      color:var(--txt); text-align:center; overflow:hidden; background: var(--bg);
+    *{box-sizing:border-box}
+    html,body{margin:0; padding:0; font-family:var(--sans); color:var(--cima-ink); background:linear-gradient(180deg, var(--cima-sand), #fff);}
+    a{color:var(--cima-teal); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:var(--maxw); margin:0 auto; padding:28px 18px 64px}
+    .topbar{
+      display:flex; gap:14px; align-items:center; justify-content:space-between;
+      background:rgba(255,255,255,.7); border:1px solid var(--border);
+      padding:14px 16px; border-radius:var(--radius); box-shadow:var(--shadow);
+      backdrop-filter: blur(8px);
     }
-
-    /* Fondo limpio sin “cortes” */
-    .vignette{
-      position:fixed; inset:0; z-index:0; pointer-events:none;
-      background:
-        radial-gradient(120% 80% at 50% 60%, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.00) 40%),
-        radial-gradient(130% 90% at 50% 60%, rgba(0,0,0,0.00) 55%, rgba(0,0,0,0.45) 100%);
+    .brand{
+      display:flex; align-items:center; gap:12px;
     }
-    .grain{
-      position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.05;
-      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.25'/%3E%3C/svg%3E");
-      background-size: 180px 180px; mix-blend-mode: soft-light;
-    }
-
-    .wrap{
-      position:relative; z-index:2; min-height:100dvh;
-      display:grid; place-items:center;
-      /* margen constante + safe-areas */
-      padding: calc(env(safe-area-inset-top, 0px) + var(--space))
-               var(--space)
-               calc(env(safe-area-inset-bottom, 0px) + var(--space));
-    }
-
-    /* Contenedor con ancho máximo para que siempre haya margen lateral */
-    .card{
-      width: min(960px, 100%);
-      display:flex; flex-direction:column; align-items:center;
-      gap: var(--gap);
-    }
-
     .logo{
-      width: var(--logo-w); height:auto;
-      filter: drop-shadow(0 0 10px rgba(255,59,10,.25));
-      animation: logoPulse 3s ease-in-out infinite alternate;
+      width:44px; height:44px; border-radius:12px;
+      background:conic-gradient(from 180deg, var(--cima-green), var(--cima-teal), var(--cima-sun), var(--cima-green));
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.65);
+      flex:0 0 auto;
     }
-    @keyframes logoPulse{
-      from{transform:scale(1); filter:drop-shadow(0 0 6px rgba(255,59,10,.20))}
-      to{transform:scale(1.02); filter:drop-shadow(0 0 14px rgba(255,59,10,.38))}
-    }
-
-    h1{margin-top: calc(var(--gap) * 0.5); font-weight:700; font-size: var(--h1)}
-    .tagline{color:var(--muted); font-size: var(--tag); letter-spacing:.2px}
-    .line{width:140px;height:2px;margin: calc(var(--gap) * 0.8) auto; background:linear-gradient(90deg,var(--lava),transparent)}
-    p.lead{color:var(--muted); font-size: var(--tag)}
-
-    footer{
-      position:fixed; left:0; right:0; bottom:12px; z-index:2;
-      color:#8e97aa; font-size:12px; text-shadow:0 1px 2px rgba(0,0,0,.45);
-      padding-inline: var(--space);
+    .brand h1{font-size:14px; margin:0; letter-spacing:.3px}
+    .brand p{margin:2px 0 0; font-size:12px; color:var(--cima-muted)}
+    .badge{
+      font-size:12px; padding:8px 10px; border-radius:999px;
+      background:rgba(31,122,77,.10);
+      border:1px solid rgba(31,122,77,.25);
+      color:var(--cima-forest);
+      white-space:nowrap;
     }
 
-    /* Canvas nieve */
-    #snow{position:fixed; inset:0; z-index:1; pointer-events:none}
-
-    /* Tamaño de la animación Lottie controlado por clase, no inline */
-    .lottie{
-      width: var(--lottie);
-      height: var(--lottie);
+    header.hero{
+      margin-top:18px;
+      padding:26px 22px;
+      border-radius:calc(var(--radius) + 8px);
+      background:
+        radial-gradient(1200px 500px at 0% 0%, rgba(15,110,122,.18), transparent 60%),
+        radial-gradient(900px 400px at 100% 0%, rgba(242,169,0,.16), transparent 55%),
+        linear-gradient(180deg, rgba(11,61,46,.92), rgba(11,61,46,.82));
+      color:#fff;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,.18);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero h2{margin:0; font-size:28px; line-height:1.15}
+    .hero .sub{margin:10px 0 0; font-size:14px; opacity:.92; max-width:70ch}
+    .meta{
+      margin-top:16px; display:flex; flex-wrap:wrap; gap:10px;
+    }
+    .pill{
+      font-size:12px; padding:7px 10px; border-radius:999px;
+      background:rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.18);
     }
 
-    /* Respeto a usuarios con reduce motion */
-    @media (prefers-reduced-motion: reduce){
-      .logo{animation:none}
+    .grid{
+      display:grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap:16px;
+      margin-top:16px;
+    }
+    @media (max-width: 860px){
+      .grid{grid-template-columns:1fr}
+    }
+@media (max-width: 520px){
+      .brand{flex-wrap:wrap}
+      .badge{width:100%; text-align:center}
+      .hero h2{font-size:22px}
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:18px 18px;
+    }
+    .card h3{
+      margin:0 0 10px; font-size:18px;
+      display:flex; gap:10px; align-items:center;
+    }
+    .icon{
+      width:28px; height:28px; border-radius:10px;
+      background:linear-gradient(180deg, rgba(31,122,77,.18), rgba(15,110,122,.14));
+      border:1px solid rgba(15,110,122,.22);
+      display:inline-flex; align-items:center; justify-content:center;
+      color:var(--cima-forest); font-weight:700;
+    }
+    .card p{margin:0 0 10px; color:var(--cima-muted); line-height:1.5}
+    .card ul{margin:0; padding-left:18px; color:var(--cima-muted); line-height:1.55}
+    .card li{margin:6px 0}
+    .callout{
+      background:linear-gradient(180deg, rgba(242,169,0,.16), rgba(242,169,0,.06));
+      border:1px solid rgba(242,169,0,.25);
+      padding:12px 12px; border-radius:14px; color:#524100;
+    }
+
+    .section{margin-top:16px}
+    .section .card + .card{margin-top:14px}
+
+    .table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border-radius:14px;
+      border:1px solid var(--border);
+    }
+    .table th{
+      text-align:left;
+      background:rgba(15,110,122,.08);
+      padding:12px 12px;
+      font-size:13px;
+      border-bottom:1px solid var(--border);
+    }
+    .table td{
+      padding:11px 12px;
+      border-bottom:1px solid var(--border);
+      vertical-align:top;
+      font-size:13px;
+      color:var(--cima-muted);
+    }
+    .table tr:last-child td{border-bottom:none}
+    .kpi{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+      margin-top:10px;
+    }
+    @media (max-width: 700px){
+      .kpi{grid-template-columns:1fr}
+    }
+    .kpi .box{
+      border:1px dashed rgba(31,122,77,.35);
+      border-radius:14px;
+      padding:12px;
+      background:rgba(31,122,77,.06);
+    }
+    .kpi .box b{display:block; font-size:18px; color:var(--cima-forest)}
+    .kpi .box span{display:block; margin-top:4px; color:var(--cima-muted); font-size:12px; line-height:1.35}
+    .foot{
+      margin-top:22px;
+      padding:14px 16px;
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.7);
+      color:var(--cima-muted);
+      font-size:12px;
+    }
+    .sig{
+      display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;
+      color:rgba(255,255,255,.9);
+      font-size:12px;
+    }
+    .sig .line{opacity:.9}
+    .printnote{
+      font-family: var(--mono);
+      font-size:11px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.22);
+      background:rgba(0,0,0,.12);
+      margin-top:12px;
+      display:inline-block;
+    }
+    @media print{
+      body{background:#fff}
+      .topbar, .foot{box-shadow:none}
+      header.hero{break-inside:avoid}
+      .card{box-shadow:none}
+      a{color:#000; text-decoration:none}
+      .printnote{display:none}
     }
   </style>
 </head>
 <body>
-  <div class="vignette" aria-hidden="true"></div>
-  <canvas id="snow" aria-hidden="true"></canvas>
-  <div class="grain" aria-hidden="true"></div>
-
-  <main class="wrap" role="main" aria-label="Página en construcción de Reto Vulcano">
-    <div class="card">
-      <img class="logo" src="https://i.postimg.cc/SRYBkn79/Logo-Reto-Vulcano-Rojo-letra-blanca.png" alt="Logo oficial Reto Vulcano">
-      <h1>Nos vemos en 2026</h1>
-      <p class="tagline">Reto Vulcano — El reto más grande de América</p>
-      <div class="line" aria-hidden="true"></div>
-      <p class="lead">Sitio en construcción</p>
-
-      <!-- Animación Lottie de constructores -->
-      <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js" type="module"></script>
-      <dotlottie-wc
-        class="lottie"
-        src="https://lottie.host/50f61904-455a-459a-a09d-19d369fbf1c7/oR9kuZ6xa6.lottie"
-        autoplay
-        loop
-        aria-label="Constructores trabajando">
-      </dotlottie-wc>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>CIMA A.C. · Comunidad de Innovación y Mejoría por Atzitzintla</h1>
+          <p>En colaboración con el H. Ayuntamiento de Atzitzintla, Puebla</p>
+        </div>
+      </div>
+      <div class="badge">Convocatoria 2026</div>
     </div>
-  </main>
 
-  <footer>© <span id="y"></span> Reto Vulcano — Desarrollado por CIMA A.C.</footer>
+    <header class="hero">
+      <h2>Convocatoria</h2>
+      <h2 style="margin-top:6px;">Programa Escolar de Viveros Verticales</h2>
+      <p class="sub">
+        Programa escolar para la <b>producción de plantas ornamentales</b> mediante jardines verticales
+        hechos con <b>materiales reciclados</b>. Una parte de la producción podrá venderse para
+        reinvertir en el proyecto y el resto se utilizará para <b>embellecer la institución</b>.
+      </p>
+      <div class="meta">
+        <span class="pill"><b>Duración:</b> Abril – Diciembre (9 meses)</span>
+        <span class="pill"><b>Participantes:</b> Secundarias y Bachilleratos</span>
+        <span class="pill"><b>Requisito base:</b> Muro ≥ 10 m lineales</span>
+              </div>
+      <div class="sig">
+        <span class="line"><b>Presenta:</b> CIMA A.C.</span>
+        <span class="line"><b>Colabora:</b> H. Ayuntamiento de Atzitzintla</span>
+        <span class="line"><b>Modalidad:</b> Competencia sana (premio Top 3)</span>
+      </div>
+          </header>
 
-  <script>
-    // Año dinámico
-    document.getElementById('y').textContent = new Date().getFullYear();
+    <div class="grid">
+      <section class="card">
+        <h3><span class="icon">🎯</span>Objetivo SMART del programa</h3>
+        <p>
+          Implementar en cada escuela un <b>jardín vertical productor de plantas ornamentales</b> con botellas PET encadenadas,
+          usando un sistema de <b>separación del muro (≥ 5 cm)</b> y drenaje para evitar humedad, durante un periodo de <b>9 meses</b>.
+        </p>
+        <div class="kpi">
+          <div class="box"><b>10 m</b><span>Muro mínimo por escuela (lineales), seleccionado por la institución.</span></div>
+          <div class="box"><b>≥ 5 cm</b><span>Separación del muro con soporte (PTR) para permitir ventilación y evitar humedad.</span></div>
+          <div class="box"><b>Producción</b><span>Meta sugerida: 150 plantas/escuela (ornamentales) y venta mínima de 50.</span></div>
+        </div>
+      </section>
 
-    // -------- Nieve minimalista en canvas (suave y eficiente) --------
-    const c = document.getElementById('snow');
-    const ctx = c.getContext('2d');
-    let W, H, flakes;
+      <aside class="card">
+        <h3><span class="icon">📌</span>¿Quiénes pueden participar?</h3>
+        <ul>
+          <li>Secundarias y Bachilleratos del municipio de Atzitzintla.</li>
+          <li>Escuelas que cuenten con un muro o barda apta de <b>≥ 10 metros lineales</b> dentro de su plantel.</li>
+          <li>Compromiso de nombrar un <b>Comité Verde Escolar</b> (docente responsable + 5–10 alumnos).</li>
+        </ul>
+        <div class="callout" style="margin-top:12px;">
+          <b>Importante:</b> Todas las escuelas iniciarán en igualdad de condiciones, recibiendo el <b>taller introductorio</b> y la
+          <b>instalación del soporte PTR superior</b> por parte del programa.
+        </div>
+      </aside>
+    </div>
 
-    function resize(){
-      W = c.width = window.innerWidth;
-      H = c.height = window.innerHeight;
-      // cantidad proporcional a pantalla
-      const count = Math.min(220, Math.floor((W*H)/18000));
-      flakes = Array.from({length: count}, () => ({
-        x: Math.random()*W,
-        y: Math.random()*H,
-        r: 0.6 + Math.random()*1.8,
-        s: 0.3 + Math.random()*0.9,
-        w: 0.6 + Math.random()*1.2,
-        p: Math.random()*Math.PI*2
-      }));
-    }
-    window.addEventListener('resize', resize, {passive:true});
-    resize();
+    <section class="section">
+      <div class="card">
+        <h3><span class="icon">🧱</span>Estándar técnico del jardín vertical (modelo PET encadenado)</h3>
+        <p><b>Modelo base:</b> botellas PET suspendidas y encadenadas en vertical mediante cuerda nylon resistente UV o cable delgado, con drenaje por botella.</p>
+        <table class="table" role="table" aria-label="Especificaciones técnicas">
+          <thead>
+            <tr>
+              <th style="width:36%;">Elemento</th>
+              <th>Especificación mínima</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Soporte superior</b></td>
+              <td>PTR metálico (recomendado) o bastidor de madera tratada, instalado a lo largo de <b>10 m</b>.</td>
+            </tr>
+            <tr>
+              <td><b>Separación del muro</b></td>
+              <td><b>≥ 5 cm</b> (ideal 7–10 cm), con separadores; permite ventilación y reduce riesgo de humedad.</td>
+            </tr>
+            <tr>
+              <td><b>Puntos de amarre</b></td>
+              <td>1 punto cada <b>40 cm</b> aprox. (ajustable según diseño), con anclaje y arandela.</td>
+            </tr>
+            <tr>
+              <td><b>Drenaje</b></td>
+              <td>Orificios de drenaje por botella + <b>canaleta inferior</b> para recolectar escurrimiento.</td>
+            </tr>
+            <tr>
+              <td><b>Riego</b></td>
+              <td>Manual (aspersión) o por gravedad controlada. Evitar saturación para reducir peso y humedad.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin-top:10px;">
+          <b>Seguridad:</b> La escuela deberá mantener libre la zona inferior del muro y evitar obstrucciones. Se recomienda revisión trimestral de amarres y drenajes.
+        </p>
+      </div>
+    </section>
 
-    function tick(){
-      ctx.clearRect(0,0,W,H);
-      ctx.fillStyle = 'rgba(255,255,255,0.85)';
-      for (const f of flakes){
-        f.p += 0.01;
-        f.y += f.s;
-        f.x += Math.sin(f.p)*f.w*0.3;
-        if (f.y > H + 4){ f.y = -6; f.x = Math.random()*W; }
-        ctx.globalAlpha = 0.15 + (f.r/2.6);
-        ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, Math.PI*2); ctx.fill();
-      }
-      ctx.globalAlpha = 1;
-      requestAnimationFrame(tick);
-    }
-    tick();
-  </script>
+    <section class="section">
+      <div class="card">
+        <h3><span class="icon">📚</span>Taller introductorio</h3>
+        <p>Se impartirá <b>un taller práctico (2–3 horas) por cada escuela participante</b>, con contenido estandarizado:</p>
+        <ul>
+          <li>Diseño del jardín vertical y distribución por metro lineal.</li>
+          <li>Preparación de sustratos ligeros y drenantes (para evitar sobrepeso).</li>
+          <li>Propagación de ornamentales (esquejes) y cuidados básicos.</li>
+          <li>Buenas prácticas de riego, control de humedad y drenaje.</li>
+          <li>Bitácora mensual de producción y evidencia fotográfica.</li>
+          <li>Modelo de microventa escolar y reinversión transparente.</li>
+        </ul>
+      </div>
+
+      
+      <div class="card">
+        <h3><span class="icon">🗓️</span>Actividades del programa (9 meses)</h3>
+        <p>
+          Durante los 9 meses del programa, cada escuela realizará: registro y conformación del Comité Verde Escolar; selección y preparación
+          del muro (≥ 10 m lineales); recolección y acondicionamiento de botellas PET; instalación del sistema de suspensión en el soporte PTR;
+          preparación de sustratos ligeros y drenantes; propagación/siembra de plantas ornamentales (preferentemente por esqueje); riego y mantenimiento
+          periódico; control de drenajes y amarres; registro fotográfico y bitácora de producción; acciones de embellecimiento del plantel con parte de la
+          producción; y, en su caso, venta de una parte para reinversión conforme a las reglas del programa, culminando con la entrega de evidencias y evaluación final.
+        </p>
+      </div>
+    </section>
+
+
+    <section class="section">
+      <div class="card">
+        <h3><span class="icon">✅</span>Compromisos de las escuelas participantes</h3>
+        <ul>
+          <li>Designar un <b>Comité Verde Escolar</b> y un docente responsable del seguimiento.</li>
+          <li>Entregar evidencia mensual: fotos, breve reporte y conteo de producción.</li>
+          <li>Garantizar mantenimiento básico del jardín (riego, limpieza, control de plagas).</li>
+          <li>Implementar una política de <b>reinversión</b> de los ingresos por venta (si los hubiera) en insumos del proyecto.</li>
+          <li>Respetar medidas de seguridad: pasillos libres, amarres firmes, drenaje funcional.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="icon">📈</span>Evaluación y puntaje</h3>
+        <p>La evaluación será realizada por un comité municipal (CIMA + Ayuntamiento) con base en evidencias y visita de verificación.</p>
+        <table class="table" role="table" aria-label="Criterios de evaluación">
+          <thead>
+            <tr>
+              <th style="width:55%;">Criterio</th>
+              <th>Puntos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><b>Producción de plantas ornamentales</b> (total producido)</td><td>25</td></tr>
+            <tr><td><b>Calidad estética</b> (orden, uniformidad, salud de plantas)</td><td>20</td></tr>
+            <tr><td><b>Innovación con reciclaje</b> (diseño, reuso, creatividad)</td><td>20</td></tr>
+            <tr><td><b>Microventa y reinversión</b> (evidencia y transparencia)</td><td>15</td></tr>
+            <tr><td><b>Participación escolar</b> (alumnos involucrados, constancia)</td><td>20</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card">
+        <h3><span class="icon">🏆</span>Premiación (Top 3)</h3>
+        <p>Se reconocerán las 3 mejores ejecuciones del programa (según puntaje).</p>
+        <ul>
+          <li><b>1er lugar:</b> Reconocimiento oficial + <b>regalo por definir</b>.</li>
+          <li><b>2do lugar:</b> Reconocimiento oficial + <b>regalo por definir</b>.</li>
+          <li><b>3er lugar:</b> Reconocimiento oficial + <b>regalo por definir</b>.</li>
+        </ul>
+        <p style="margin-top:10px;">
+          <b>Nota:</b> Los premios podrán ajustarse según patrocinadores o disponibilidad presupuestal, manteniendo el esquema Top 3.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3><span class="icon">💵</span>Costos del programa</h3>
+        <p>
+          El H. Ayuntamiento de Atzitzintla asumirá los costos del programa. CIMA A.C. brindará supervisión y asesoría técnica. Las escuelas ejecutarán las actividades y el mantenimiento con participación de su comunidad escolar.
+        </p>
+        <table class="table" role="table" aria-label="Costos estimados">
+          <thead>
+            <tr>
+              <th style="width:42%;">Concepto</th>
+              <th>Quién lo cubre</th>
+              <th>Observaciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Taller introductorio</b></td>
+              <td>H. Ayuntamiento (con asesoría y supervisión de CIMA A.C.)</td>
+              <td>Se realiza una vez por escuela o de forma regional por sedes.</td>
+            </tr>
+            <tr>
+              <td><b>PTR superior (10 m) + anclajes</b></td>
+              <td>H. Ayuntamiento (con asesoría y supervisión de CIMA A.C.)</td>
+              <td>Instalación para separación ≥ 5 cm y puntos de amarre.</td>
+            </tr>
+            <tr>
+              <td><b>Botellas PET</b></td>
+              <td>H. Ayuntamiento (con ejecución escolar)</td>
+              <td>Material reciclado recolectado por la comunidad escolar.</td>
+            </tr>
+            <tr>
+              <td><b>Sustrato / composta</b></td>
+              <td>H. Ayuntamiento (con ejecución escolar)</td>
+              <td>Se recomienda composta escolar + sustrato ligero drenante.</td>
+            </tr>
+            <tr>
+              <td><b>Plantas/Esquejes</b></td>
+              <td>H. Ayuntamiento (con ejecución escolar)</td>
+              <td>Propagación por esqueje para reducir costos.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="callout" style="margin-top:12px;">
+          <b>Transparencia:</b> En caso de venta de plantas, la escuela llevará un registro simple de ingresos y reinversión conforme a la bitácora del programa.
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card">
+        <h3><span class="icon">📝</span>Registro y entrega de evidencias</h3>
+        <ul>
+          <li><b>Registro:</b> del <span style="font-family:var(--mono)">15 de marzo</span> al <span style="font-family:var(--mono)">31 de marzo</span>.</li>
+          <li><b>Entrega mensual:</b> del 1 al 5 de cada mes (fotos + conteo + breve reporte).</li>
+          <li><b>Entrega final:</b> <b>15 días antes del inicio de las vacaciones de Navidad</b> (reporte + evidencia completa).</li>
+        </ul>
+        <p style="margin-top:8px;">
+          <b>Medios de registro:</b> Formulario (Google/Tally) o entrega física en Dirección correspondiente (según se defina).
+        </p>
+      </div>
+
+      <div class="card">
+        <h3><span class="icon">📞</span>Contacto</h3>
+        <p>
+          Para dudas, registro y coordinación de la visita técnica e instalación del PTR:
+        </p>
+        <ul>
+          <li><b>Coordinación CIMA A.C.:</b> ________________________________</li>
+          <li><b>Dirección municipal responsable:</b> _________________________</li>
+          <li><b>WhatsApp:</b> ____________________</li>
+          <li><b>Correo:</b> _______________________</li>
+        </ul>
+        <p style="margin-top:10px; color:var(--cima-muted);">
+          *Los datos anteriores se llenan al publicar la convocatoria oficial.
+        </p>
+      </div>
+    </section>
+
+    <div class="foot">
+      <b>Notas legales / de seguridad (recomendado):</b>
+      <ul>
+        <li>El programa prioriza la seguridad de estudiantes y personal. La instalación del soporte se realizará con supervisión técnica.</li>
+        <li>Las escuelas se comprometen a mantener el área segura, sin obstrucciones y con revisiones periódicas.</li>
+        <li>CIMA A.C. y el H. Ayuntamiento podrán realizar visitas para verificación y acompañamiento.</li>
+      </ul>
+      <div style="margin-top:10px;">
+        <span style="font-family:var(--mono);">Versión:</span> Anteproyecto · <span style="font-family:var(--mono);">Fecha de publicación:</span> __/__/2026
+      </div>
+    </div>
+  </div>
 </body>
 </html>
